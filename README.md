@@ -35,3 +35,8 @@ Projekt Biblioteka Online to aplikacja webowa napisana w językach PHP, JavaScri
 ## Licencja
 
 Ten projekt jest udostępniony na licencji MIT. Szczegółowe informacje można znaleźć w pliku LICENSE.
+
+## Trello
+
+Nasze trello z wyznaczonymi zadaniami:
+https://trello.com/b/sdHHAEqf/bibliotek-online-pss
