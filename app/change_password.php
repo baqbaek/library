@@ -68,6 +68,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <label for="new_password">Nowe hasło:</label>
                 <input type="password" class="form-control" id="new_password" name="new_password" required>
             </div>
+            <button type="button" class="btn btn-primary" onclick="window.location.href='dashboard.php'">Powrót</button>
             <button type="submit" class="btn btn-primary">Zmień hasło</button>
         </form>
     </div>
