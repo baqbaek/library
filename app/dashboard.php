@@ -1,6 +1,19 @@
 <?php
 session_start();
 
+// Połączenie z bazą danych
+$host = 'localhost';
+$username = 'admin'; 
+$password = 'admin'; 
+$database = 'biblioteka'; 
+
+$connection = mysqli_connect($host, $username, $password, $database);
+
+// Sprawdzenie połączenia
+if (!$connection) {
+    die('Błąd połączenia z bazą danych: ' . mysqli_connect_error());
+}
+
 // Sprawdzenie, czy użytkownik jest zalogowany
 if (!isset($_SESSION['user'])) {
     // Jeśli nie jest zalogowany, przekieruj go do strony logowania
@@ -62,36 +75,40 @@ if (in_array($user_name, $admin_users)) {
             <div class="tab-pane fade show active" id="books">
                 <h3>Książki</h3>
                 <p>Tutaj znajdziesz dostępne książki do wypożyczenia.</p>
-                <div class="card-deck">
-                    <div class="card">
-                        <img src="book1.jpg" class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">Harry Potter i Kamień Filozoficzny</h5>
-                            <p class="card-text">Autor: J.K. Rowling</p>
-                            <p class="card-text">Kategoria: Fantasy</p>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <img src="book2.jpg" class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">Dziady</h5>
-                            <p class="card-text">Autor: Adam Mickiewicz</p>
-                            <p class="card-text">Kategoria: Klasyczna literatura</p>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <img src="book3.jpg" class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">Władca Pierścieni: Drużyna Pierścienia</h5>
-                            <p class="card-text">Autor: J.R.R. Tolkien</p>
-                            <p class="card-text">Kategoria: Fantasy</p>
-                        </div>
-                    </div>
+
+                <!-- Lista książek -->
+                <div class="row">
+                    <?php
+                    // Pobranie danych o książkach z bazy danych
+                    $books_query = "SELECT * FROM books";
+                    $result = mysqli_query($connection, $books_query);
+
+                    // Wyświetlenie książek
+                    while ($row = mysqli_fetch_assoc($result)) {
+                        echo '<div class="col-md-4 mb-3">';
+                        echo '<div class="card">';
+                        echo '<div class="card-body">';
+                        echo '<h5 class="card-title">' . $row['title'] . '</h5>';
+                        echo '<p class="card-text">Autor: ' . $row['author'] . '</p>';
+                        echo '<p class="card-text">Kategoria: ' . $row['category'] . '</p>';
+                        echo '<p class="card-text">Opis: ' . $row['description'] . '</p>';
+                        if ($row['available']) {
+                            echo '<p class="card-text text-success">Dostępna</p>';
+                        } else {
+                            echo '<p class="card-text text-danger">Niedostępna</p>';
+                        }
+                        echo '</div>';
+                        echo '</div>';
+                        echo '</div>';
+                    }
+                    ?>
                 </div>
+
                 <!-- Przypadki użycia -->
                 <h5>Funkcje do zaimplementowania</h5>
                 <ul>
                     <li>Wypożycz książkę</li>
+                    <li>Przeglądaj książki</li>
                     <li>Zgłoś zagubienie książki</li>
                     <li>Przeglądaj historię wypożyczeń</li>
                     <li>Opłać karę</li>
