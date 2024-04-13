@@ -108,7 +108,6 @@ if (in_array($user_name, $admin_users)) {
                 <h5>Funkcje do zaimplementowania</h5>
                 <ul>
                     <li>Wypożycz książkę</li>
-                    <li>Przeglądaj książki</li>
                     <li>Zgłoś zagubienie książki</li>
                     <li>Przeglądaj historię wypożyczeń</li>
                     <li>Opłać karę</li>
@@ -121,17 +120,13 @@ if (in_array($user_name, $admin_users)) {
                 <h3>Profil</h3>
                 <p>Witaj, <?php echo $user_name; ?>!</p>
                 <p>Tutaj znajdziesz informacje o swoim profilu użytkownika.</p>
-
+                <form action="change_password.php" method="post">
+                    <button type="submit" class="btn btn-link">Zmiana hasła</button>
+                </form>
                 <!-- Przypadki użycia -->
                 <h5>Funkcje do zaimplementowania</h5>
                 <ul>
-                    <li>Zmiana danych osobowych</li>
                     <li><a href="#borrow_history" data-toggle="tab">Przeglądanie historii wypożyczeń</a></li>
-                    <li>
-                        <form action="change_password.php" method="post">
-                            <button type="submit" class="btn btn-link">Zmiana hasła</button>
-                        </form>
-                    </li>
                 </ul>
             </div>
 

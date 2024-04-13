@@ -36,11 +36,13 @@ CREATE TABLE borrow_history (
     return_date DATE,
     status ENUM('wypożyczona', 'zarezerwowana', 'zwrócona') NOT NULL
 );
-
 INSERT INTO books (title, author, category, description, available)
 VALUES ('Harry Potter i Kamień Filozoficzny', 'J.K. Rowling', 'Fantastyka', 'Pierwsza część przygód Harry\'ego Pottera.', 1),
        ('Władca Pierścieni: Drużyna Pierścienia', 'J.R.R. Tolkien', 'Fantasy', 'Pierwsza część trylogii Władca Pierścieni.', 1),
        ('Metro 2033', 'Dmitry Glukhovsky', 'Science Fiction', 'Historia osadzona w postapokaliptycznym świecie Moskwy.', 1),
        ('1984', 'George Orwell', 'Dystopia', 'Klasyczna powieść dystopijna o totalitarnym społeczeństwie.', 1),
-       ('Zbrodnia i Kara', 'Fiodor Dostojewski', 'Literatura Rosyjska', 'Historia biednego studenta, który popełnia zbrodnię.', 1);
-
+       ('Zbrodnia i Kara', 'Fiodor Dostojewski', 'Literatura Rosyjska', 'Historia biednego studenta, który popełnia zbrodnię.', 1),
+       ('W pustyni i w puszczy', 'Henryk Sienkiewicz', 'Przygodowa', 'Opowieść o dwóch chłopcach, Staśku i Nel, którzy wyruszają na wyprawę do Afryki.', 1),
+       ('Pan Tadeusz', 'Adam Mickiewicz', 'Epicka', 'Epopeja narodowa opisująca losy szlachty polskiej w czasach napoleońskich.', 1),
+       ('Quo Vadis', 'Henryk Sienkiewicz', 'Historyczna', 'Historia miłości pomiędzy rzymskim wodzem, a chrześcijańską dziewczyną w czasach Nerona.', 1),
+       ('Hobbit, czyli tam i z powrotem', 'J.R.R. Tolkien', 'Fantasy', 'Opowieść o hobbitach, podróży, przygodach i skarbach.', 1);
