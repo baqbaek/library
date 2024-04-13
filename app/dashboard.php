@@ -9,7 +9,7 @@ if (!isset($_SESSION['user'])) {
 }
 
 // Pobranie nazwy zalogowanego użytkownika
-$user_type = $_SESSION['user'];
+$user_name = $_SESSION['user'];
 
 // Definicja różnych typów użytkowników
 $admin_users = array('admin');
@@ -17,13 +17,13 @@ $librarian_users = array('bibliotekarz');
 $client_users = array('klient');
 
 // Sprawdzenie, do jakiego typu użytkownika należy zalogowany użytkownik
-if (in_array($user_type, $admin_users)) {
+if (in_array($user_name, $admin_users)) {
     // Wyświetlenie zawartości dla administratora
     $dashboard_content = 'Witaj, Administratorze!';
-} elseif (in_array($user_type, $librarian_users)) {
+} elseif (in_array($user_name, $librarian_users)) {
     // Wyświetlenie zawartości dla bibliotekarza
     $dashboard_content = 'Witaj, Bibliotekarzu!';
-} elseif (in_array($user_type, $client_users)) {
+} elseif (in_array($user_name, $client_users)) {
     // Wyświetlenie zawartości dla klienta
     $dashboard_content = 'Witaj, Kliencie!';
 } else {
@@ -43,9 +43,69 @@ if (in_array($user_type, $admin_users)) {
 </head>
 <body>
     <div class="container mt-5">
-        <h2 class="mb-4">Panel użytkownika</h2>
-        <p><?php echo $dashboard_content; ?></p>
-        <a href="logout.php" class="btn btn-danger">Wyloguj się</a>
+        <!-- Zakładki -->
+        <ul class="nav nav-tabs mb-4">
+            <li class="nav-item">
+                <a class="nav-link active" href="#books" data-toggle="tab">Książki</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#profile" data-toggle="tab">Profil</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="logout.php">Wyloguj się</a>
+            </li>
+        </ul>
+
+        <!-- Zawartość zakładek -->
+        <div class="tab-content">
+            <!-- Zakładka Książki -->
+            <div class="tab-pane fade show active" id="books">
+                <h3>Książki</h3>
+                <p>Tutaj znajdziesz dostępne książki do wypożyczenia.</p>
+
+                <!-- Przypadki użycia -->
+                <h5>Funkcje do zaimplementowania</h5>
+                <ul>
+                    <li>Wypożycz książkę</li>
+                    <li>Przeglądaj książki</li>
+                    <li>Zgłoś zagubienie książki</li>
+                    <li>Przeglądaj historię wypożyczeń</li>
+                    <li>Opłać karę</li>
+                    <li>Zwróć książki</li>
+                </ul>
+            </div>
+
+            <!-- Zakładka Profil -->
+            <div class="tab-pane fade" id="profile">
+                <h3>Profil</h3>
+                <p>Witaj, <?php echo $user_name; ?>!</p>
+                <p>Tutaj znajdziesz informacje o swoim profilu użytkownika.</p>
+
+                <!-- Przypadki użycia -->
+                <h5>Funkcje do zaimplementowania</h5>
+                <ul>
+                    <li>Zmiana danych osobowych</li>
+                    <li><a href="#borrow_history" data-toggle="tab">Przeglądanie historii wypożyczeń</a></li>
+                    <li>
+                        <form action="change_password.php" method="post">
+                            <button type="submit" class="btn btn-link">Zmiana hasła</button>
+                        </form>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Zakładka Przeglądanie historii wypożyczeń -->
+            <div class="tab-pane fade" id="borrow_history">
+                <h3>Historia wypożyczeń</h3>
+                <p>Tutaj znajdziesz historię swoich wypożyczeń.</p>
+                <!-- Tutaj możesz dodać kod do wyświetlania historii wypożyczeń -->
+            </div>
+        </div>
     </div>
+
+    <!-- Dodanie skryptów Bootstrap -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
