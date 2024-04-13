@@ -24,8 +24,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Użytkownik o tej nazwie już istnieje
         echo "<script>alert('Użytkownik o tej nazwie już istnieje.');</script>";
     } else {
+        // Zaszyfrowanie hasła przed dodaniem do bazy danych
+        $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+
         // Dodanie nowego użytkownika do bazy danych
-        $sql_insert = "INSERT INTO users (username, password) VALUES ('$username', '$password')";
+        $sql_insert = "INSERT INTO users (username, password) VALUES ('$username', '$hashed_password')";
         if (mysqli_query($connection, $sql_insert)) {
             echo "<script>alert('Rejestracja udana. Możesz się teraz zalogować.');</script>";
         } else {
@@ -64,6 +67,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <label for="password">Hasło:</label>
                         <input type="password" id="password" name="password" class="form-control" required>
                     </div>
+                    <button type="button" class="btn btn-primary" onclick="window.location.href='index.php'">Powrót</button>
                     <button type="submit" class="btn btn-primary">Zarejestruj</button>
                 </form>
             </div>
