@@ -1,6 +1,6 @@
 # library
-Bibliotek - Projekt Systemu
-<<<<<<< HEAD
+Biblioteka - Projekt Systemu
+
 # Biblioteka Online
 
 Projekt Biblioteka Online to aplikacja webowa napisana w językach PHP, JavaScript oraz HTML. Pozwala użytkownikom na przeglądanie dostępnych książek, wypożyczanie, rezerwowanie, zarządzanie profilem użytkownika i innymi funkcjonalnościami związanymi z biblioteką.
