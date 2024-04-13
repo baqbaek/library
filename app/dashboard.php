@@ -92,7 +92,6 @@ if (in_array($user_name, $admin_users)) {
                 <h5>Funkcje do zaimplementowania</h5>
                 <ul>
                     <li>Wypożycz książkę</li>
-                    <li>Przeglądaj książki</li>
                     <li>Zgłoś zagubienie książki</li>
                     <li>Przeglądaj historię wypożyczeń</li>
                     <li>Opłać karę</li>
