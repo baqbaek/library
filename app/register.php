@@ -30,7 +30,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Dodanie nowego użytkownika do bazy danych
         $sql_insert = "INSERT INTO users (username, password) VALUES ('$username', '$hashed_password')";
         if (mysqli_query($connection, $sql_insert)) {
-            echo "<script>alert('Rejestracja udana. Możesz się teraz zalogować.');</script>";
+            // Przekierowanie użytkownika do strony logowania po udanej rejestracji
+            echo "<script>window.location.href = 'index.php';</script>";
         } else {
             echo "Błąd podczas dodawania użytkownika: " . mysqli_error($connection);
         }
