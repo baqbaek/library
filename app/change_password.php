@@ -24,7 +24,7 @@ function changePassword($new_password, $user_name, $connection) {
     
     // Wykonanie zapytania
     if (mysqli_query($connection, $sql)) {
-        echo "<script>alert('Hasło zostało pomyślnie zmienione.');</script>";
+        echo "<script>window.location.href = 'dashboard.php'; alert('Hasło zostało pomyślnie zmienione.');</script>";
     } else {
         echo "Błąd podczas aktualizacji hasła: " . mysqli_error($connection);
     }
