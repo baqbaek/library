@@ -62,7 +62,32 @@ if (in_array($user_name, $admin_users)) {
             <div class="tab-pane fade show active" id="books">
                 <h3>Książki</h3>
                 <p>Tutaj znajdziesz dostępne książki do wypożyczenia.</p>
-
+                <div class="card-deck">
+                    <div class="card">
+                        <img src="book1.jpg" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">Harry Potter i Kamień Filozoficzny</h5>
+                            <p class="card-text">Autor: J.K. Rowling</p>
+                            <p class="card-text">Kategoria: Fantasy</p>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <img src="book2.jpg" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">Dziady</h5>
+                            <p class="card-text">Autor: Adam Mickiewicz</p>
+                            <p class="card-text">Kategoria: Klasyczna literatura</p>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <img src="book3.jpg" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">Władca Pierścieni: Drużyna Pierścienia</h5>
+                            <p class="card-text">Autor: J.R.R. Tolkien</p>
+                            <p class="card-text">Kategoria: Fantasy</p>
+                        </div>
+                    </div>
+                </div>
                 <!-- Przypadki użycia -->
                 <h5>Funkcje do zaimplementowania</h5>
                 <ul>
