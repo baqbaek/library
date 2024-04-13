@@ -13,12 +13,8 @@ $user_name = $_SESSION['user'];
 
 // Funkcja do zmiany hasła użytkownika
 function changePassword($new_password) {
-    // Tutaj powinien być kod do zmiany hasła w bazie danych
-    // Należy odpowiednio zabezpieczyć ten kod przed atakami typu SQL injection
-    // Poniżej znajdziesz jedynie przykładową implementację zmiany hasła w pliku tekstowym
     $file_path = "users_passwords.txt";
     $file_content = file_get_contents($file_path);
-    // Znalezienie linii z hasłem użytkownika
     $lines = explode(PHP_EOL, $file_content);
     foreach ($lines as $key => $line) {
         $user_data = explode(":", $line);
@@ -32,13 +28,10 @@ function changePassword($new_password) {
     file_put_contents($file_path, implode(PHP_EOL, $lines));
 }
 
-// Obsługa formularza zmiany hasła
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['new_password'])) {
         $new_password = $_POST['new_password'];
-        // Zmiana hasła
         changePassword($new_password);
-        // Powiadomienie użytkownika o pomyślnej zmianie hasła
         echo "<script>alert('Hasło zostało pomyślnie zmienione.');</script>";
     }
 }
