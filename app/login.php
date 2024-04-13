@@ -22,17 +22,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = $_POST['username'];
     $password = $_POST['password'];
 
-    // Pobranie zaszyfrowanego hasła dla podanej nazwy użytkownika z bazy danych
+    // Pobranie hasła dla podanej nazwy użytkownika z bazy danych
     $sql = "SELECT password FROM users WHERE username = '$username'";
     $result = mysqli_query($connection, $sql);
 
     if ($result && mysqli_num_rows($result) > 0) {
         $row = mysqli_fetch_assoc($result);
-        $hashed_password = $row['password'];
+        $stored_password = $row['password'];
 
-        // Porównanie hasła wprowadzonego przez użytkownika z zaszyfrowanym hasłem z bazy danych
-        if (password_verify($password, $hashed_password)) {
+        // Sprawdzenie, czy hasło jest zaszyfrowane
+        if (password_verify($password, $stored_password)) {
             // Użytkownik zalogowany poprawnie, ustaw zmienną sesji
+            $_SESSION['user'] = $username;
+            header("Location: dashboard.php");
+            exit();
+        } elseif ($password === $stored_password) {
+            // Użytkownik zalogowany poprawnie bez hashowania hasła, ustaw zmienną sesji
             $_SESSION['user'] = $username;
             header("Location: dashboard.php");
             exit();
