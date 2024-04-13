@@ -29,6 +29,7 @@
                     </div>
                     <button type="submit" class="btn btn-primary">Zaloguj</button>
                 </form>
+                <p>Nie masz konta? <a href="register.php">Zarejestruj się</a></p>
             </div>
         </div>
     </main>
