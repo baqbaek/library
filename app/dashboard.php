@@ -87,6 +87,7 @@ if (in_array($user_name, $admin_users)) {
                     while ($row = mysqli_fetch_assoc($result)) {
                         echo '<div class="col-md-4 mb-3">';
                         echo '<div class="card">';
+                        echo '<img src="' . $row['image_path'] . '" class="card-img-top" alt="Obraz książki">';
                         echo '<div class="card-body">';
                         echo '<h5 class="card-title">' . $row['title'] . '</h5>';
                         echo '<p class="card-text">Autor: ' . $row['author'] . '</p>';
