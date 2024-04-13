@@ -12,33 +12,47 @@ if (!isset($_SESSION['user'])) {
 $user_name = $_SESSION['user'];
 
 // Funkcja do zmiany hasła użytkownika
-function changePassword($new_password) {
-    $file_path = "users_passwords.txt";
-    $file_content = file_get_contents($file_path);
-    $lines = explode(PHP_EOL, $file_content);
-    foreach ($lines as $key => $line) {
-        $user_data = explode(":", $line);
-        if ($user_data[0] == $user_name) {
-            // Zmiana hasła
-            $lines[$key] = $user_name . ":" . password_hash($new_password, PASSWORD_DEFAULT);
-            break;
-        }
+function changePassword($new_password, $user_name, $connection) {
+    // Zabezpieczenie hasła przed atakami SQL Injection
+    $new_password = mysqli_real_escape_string($connection, $new_password);
+
+    // Haszowanie nowego hasła
+    $hashed_password = password_hash($new_password, PASSWORD_DEFAULT);
+
+    // Zapytanie SQL do aktualizacji hasła w bazie danych
+    $sql = "UPDATE users SET password = '$hashed_password' WHERE username = '$user_name'";
+    
+    // Wykonanie zapytania
+    if (mysqli_query($connection, $sql)) {
+        echo "<script>alert('Hasło zostało pomyślnie zmienione.');</script>";
+    } else {
+        echo "Błąd podczas aktualizacji hasła: " . mysqli_error($connection);
     }
-    // Zapisanie zmian do pliku
-    file_put_contents($file_path, implode(PHP_EOL, $lines));
 }
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+// Połączenie z bazą danych
+$host = 'localhost';
+$username = 'admin'; 
+$password = 'admin'; 
+$database = 'biblioteka'; 
+$connection = mysqli_connect($host, $username, $password, $database);
+
+// Sprawdzenie połączenia
+if (!$connection) {
+    die('Błąd połączenia z bazą danych: ' . mysqli_connect_error());
+}
+
+// Sprawdzenie, czy formularz został przesłany
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST['new_password'])) {
         $new_password = $_POST['new_password'];
-        changePassword($new_password);
-        echo "<script>alert('Hasło zostało pomyślnie zmienione.');</script>";
+        changePassword($new_password, $user_name, $connection);
     }
 }
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">

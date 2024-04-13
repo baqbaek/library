@@ -49,4 +49,7 @@ VALUES ('Harry Potter i Kamień Filozoficzny', 'J.K. Rowling', 'Fantastyka', 'Pi
        ('Quo Vadis', 'Henryk Sienkiewicz', 'Historyczna', 'Historia miłości pomiędzy rzymskim wodzem, a chrześcijańską dziewczyną w czasach Nerona.', 1, 'https://ecsmedia.pl/c/quo-vadis-w-iext121792362.jpg'),
        ('Hobbit, czyli tam i z powrotem', 'J.R.R. Tolkien', 'Fantasy', 'Opowieść o hobbitach, podróży, przygodach i skarbach.', 1, 'https://s.lubimyczytac.pl/upload/books/5060000/5060266/1090573-352x500.jpg');
 
-
+INSERT INTO users (username, password) VALUES
+('admin', 'admin123'),
+('bibliotekarz', 'biblio123'),
+('klient', 'klient123');
