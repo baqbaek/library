@@ -30,18 +30,46 @@ $librarian_users = array('bibliotekarz');
 $client_users = array('klient');
 
 // Sprawdzenie, do jakiego typu użytkownika należy zalogowany użytkownik
-if (in_array($user_name, $admin_users)) {
-    // Wyświetlenie zawartości dla administratora
-    $dashboard_content = 'Witaj, Administratorze!';
-} elseif (in_array($user_name, $librarian_users)) {
-    // Wyświetlenie zawartości dla bibliotekarza
-    $dashboard_content = 'Witaj, Bibliotekarzu!';
+if (in_array($user_name, $admin_users) || in_array($user_name, $librarian_users)) {
+    // Wyświetlenie zawartości dla administratora i bibliotekarza
+    $dashboard_content = 'Witaj, ' . ucfirst($user_name) . '! Jesteś zalogowany jako ' . (in_array($user_name, $admin_users) ? 'Administrator' : 'Bibliotekarz');
 } elseif (in_array($user_name, $client_users)) {
     // Wyświetlenie zawartości dla klienta
     $dashboard_content = 'Witaj, Kliencie!';
 } else {
     // W przypadku, gdy zalogowany użytkownik nie należy do żadnego zdefiniowanego typu
     $dashboard_content = 'Nieznany typ użytkownika';
+}
+
+// Obsługa dodawania lub odejmowania ilości książek
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    if (isset($_POST['book_id']) && isset($_POST['quantity'])) {
+        $book_id = $_POST['book_id'];
+        $quantity = $_POST['quantity'];
+
+        // Pobranie aktualnej ilości dostępnych egzemplarzy książki
+        $book_query = "SELECT * FROM books WHERE id = $book_id";
+        $book_result = mysqli_query($connection, $book_query);
+        $book_row = mysqli_fetch_assoc($book_result);
+        $current_quantity = $book_row['quantity'];
+
+        // Dodanie lub odjęcie ilości książek
+        if ($_POST['action'] == 'add') {
+            $new_quantity = $current_quantity + $quantity;
+        } elseif ($_POST['action'] == 'subtract') {
+            $new_quantity = max(0, $current_quantity - $quantity);
+        }
+
+        // Aktualizacja ilości dostępnych egzemplarzy książki w bazie danych
+        $update_query = "UPDATE books SET quantity = $new_quantity WHERE id = $book_id";
+        if (mysqli_query($connection, $update_query)) {
+            // Aktualizacja udana
+            echo "<script>alert('Aktualizacja ilości książek zakończona pomyślnie.')</script>";
+        } else {
+            // Aktualizacja nieudana
+            echo "<script>alert('Błąd podczas aktualizacji ilości książek: " . mysqli_error($connection) . "')</script>";
+        }
+    }
 }
 ?>
 
@@ -93,11 +121,7 @@ if (in_array($user_name, $admin_users)) {
                         echo '<p class="card-text">Autor: ' . $row['author'] . '</p>';
                         echo '<p class="card-text">Kategoria: ' . $row['category'] . '</p>';
                         echo '<p class="card-text">Opis: ' . $row['description'] . '</p>';
-                        if ($row['available']) {
-                            echo '<p class="card-text text-success">Dostępna</p>';
-                        } else {
-                            echo '<p class="card-text text-danger">Niedostępna</p>';
-                        }
+                        echo '<p class="card-text">Ilość dostępnych egzemplarzy: ' . $row['quantity'] . '</p>';
                         echo '</div>';
                         echo '</div>';
                         echo '</div>';
@@ -114,6 +138,29 @@ if (in_array($user_name, $admin_users)) {
                     <li>Opłać karę</li>
                     <li>Zwróć książki</li>
                 </ul>
+
+                <!-- Formularz dodawania/odejmowania ilości książek -->
+                <?php if (in_array($user_name, $admin_users) || in_array($user_name, $librarian_users)) : ?>
+                    <h5>Dodaj lub odejmij ilość książek</h5>
+                    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+                        <div class="form-group">
+                            <label for="book_id">ID Książki:</label>
+                            <input type="text" class="form-control" id="book_id" name="book_id" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="quantity">Ilość:</label>
+                            <input type="number" class="form-control" id="quantity" name="quantity" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="action">Akcja:</label>
+                            <select class="form-control" id="action" name="action" required>
+                                <option value="add">Dodaj</option>
+                                <option value="subtract">Odejmij</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Wykonaj</button>
+                    </form>
+                <?php endif; ?>
             </div>
 
             <!-- Zakładka Profil -->
