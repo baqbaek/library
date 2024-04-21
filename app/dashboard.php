@@ -71,6 +71,9 @@ if (in_array($user_name, $admin_users) || in_array($user_name, $librarian_users)
                         <li class="nav-item">
                             <a class="nav-link" href="logout.php">Wyloguj się</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="borrow.php">Wypożycz książkę</a>
+                        </li>
                     </ul>
                     <?php if (in_array($user_name, $admin_users) || in_array($user_name, $librarian_users)) { ?>
                         <ul class="navbar-nav">
