@@ -40,37 +40,6 @@ if (in_array($user_name, $admin_users) || in_array($user_name, $librarian_users)
     // W przypadku, gdy zalogowany użytkownik nie należy do żadnego zdefiniowanego typu
     $dashboard_content = 'Nieznany typ użytkownika';
 }
-
-// Obsługa dodawania lub odejmowania ilości książek
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if (isset($_POST['book_id']) && isset($_POST['quantity'])) {
-        $book_id = $_POST['book_id'];
-        $quantity = $_POST['quantity'];
-
-        // Pobranie aktualnej ilości dostępnych egzemplarzy książki
-        $book_query = "SELECT * FROM books WHERE id = $book_id";
-        $book_result = mysqli_query($connection, $book_query);
-        $book_row = mysqli_fetch_assoc($book_result);
-        $current_quantity = $book_row['quantity'];
-
-        // Dodanie lub odjęcie ilości książek
-        if ($_POST['action'] == 'add') {
-            $new_quantity = $current_quantity + $quantity;
-        } elseif ($_POST['action'] == 'subtract') {
-            $new_quantity = max(0, $current_quantity - $quantity);
-        }
-
-        // Aktualizacja ilości dostępnych egzemplarzy książki w bazie danych
-        $update_query = "UPDATE books SET quantity = $new_quantity WHERE id = $book_id";
-        if (mysqli_query($connection, $update_query)) {
-            // Aktualizacja udana
-            echo "<script>alert('Aktualizacja ilości książek zakończona pomyślnie.')</script>";
-        } else {
-            // Aktualizacja nieudana
-            echo "<script>alert('Błąd podczas aktualizacji ilości książek: " . mysqli_error($connection) . "')</script>";
-        }
-    }
-}
 ?>
 
 <!DOCTYPE html>
