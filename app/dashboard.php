@@ -69,10 +69,10 @@ if (in_array($user_name, $admin_users) || in_array($user_name, $librarian_users)
                             <a class="nav-link" href="profile.php">Profil</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="logout.php">Wyloguj się</a>
+                            <a class="nav-link" href="borrow.php">Wypożycz książkę</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="borrow.php">Wypożycz książkę</a>
+                            <a class="nav-link" href="logout.php">Wyloguj się</a>
                         </li>
                     </ul>
                     <?php if (in_array($user_name, $admin_users) || in_array($user_name, $librarian_users)) { ?>
