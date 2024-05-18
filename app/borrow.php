@@ -68,7 +68,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <li class="nav-item">
                             <a class="nav-link" href="logout.php">Wyloguj się</a>
                         </li>
-                     
                     </ul>
                     <?php if (in_array($user_name, $admin_users) || in_array($user_name, $librarian_users)) { ?>
                         <ul class="navbar-nav">

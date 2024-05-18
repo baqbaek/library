@@ -48,6 +48,7 @@ if (in_array($user_name, $admin_users) || in_array($user_name, $librarian_users)
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
+    <link rel="icon" href="images/icon.png" type="image/png">
     <!-- Dodanie stylów Bootstrap -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
@@ -89,7 +90,6 @@ if (in_array($user_name, $admin_users) || in_array($user_name, $librarian_users)
         <!-- Zawartość -->
         <div class="mt-3">
             <h3><?php echo $dashboard_content; ?></h3>
-            <!-- Tutaj wyświetlamy listę książek -->
             <h6>Tutaj znajdziesz dostępne książki do wypożyczenia.</h6>
 
             <!-- Lista książek -->
@@ -119,8 +119,8 @@ if (in_array($user_name, $admin_users) || in_array($user_name, $librarian_users)
         </div>
     </div>
 
-    <!-- Dodanie skryptów Bootstrap -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <!-- Dodanie skryptów jQuery i Bootstrap -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
