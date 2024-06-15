@@ -62,7 +62,7 @@ if (in_array($user_type, $admin_users)) {
         }
         body.black-scheme {
             background-color: black;
-            color: white;
+            color: gray;
         }
         body.contrast-scheme {
             background-color: yellow;
