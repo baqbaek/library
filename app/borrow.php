@@ -44,11 +44,33 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <title>Wypożycz książkę</title>
+    <style>
+        body.white-scheme {
+            background-color: white;
+            color: black;
+        }
+        body.black-scheme {
+            background-color: black;
+            color: gray;
+        }
+        body.contrast-scheme {
+            background-color: yellow;
+            color: black;
+        }
+        .color-scheme-buttons {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+        .color-scheme-buttons button {
+            margin-left: 5px;
+        }
+    </style>
 </head>
-<body>
+<body class="white-scheme">
 <div class="container mt-5">
         <!-- Pasek nawigacyjny -->
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light" aria-label="Primary Navigation">
             <div class="container">
                 <a class="navbar-brand" href="#">Biblioteka Online</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -79,6 +101,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </div>
             </div>
         </nav>
+        <div class="color-scheme-buttons">
+            <button class="btn btn-light" onclick="changeColorScheme('white')">Biały</button>
+            <button class="btn btn-dark" onclick="changeColorScheme('black')">Czarny</button>
+            <button class="btn btn-warning" onclick="changeColorScheme('contrast')">Kontrast</button>
+        </div>
     <h1>Wypożycz książkę</h1>
     <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
         <div class="form-group">
@@ -95,5 +122,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+    function changeColorScheme(color) {
+        document.body.className = color + '-scheme';
+    }
+</script>
 </body>
 </html>

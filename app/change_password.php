@@ -94,27 +94,60 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <title>Zmiana hasła</title>
     <!-- Dodanie stylów Bootstrap -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body.white-scheme {
+            background-color: white;
+            color: black;
+        }
+        body.black-scheme {
+            background-color: black;
+            color: gray;
+        }
+        body.contrast-scheme {
+            background-color: yellow;
+            color: black;
+        }
+        .color-scheme-buttons {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+        .color-scheme-buttons button {
+            margin-left: 5px;
+        }
+    </style>
 </head>
-<body>
+<body class="white-scheme">
+<div class="color-scheme-buttons">
+            <button class="btn btn-light" onclick="changeColorScheme('white')">Biały</button>
+            <button class="btn btn-dark" onclick="changeColorScheme('black')">Czarny</button>
+            <button class="btn btn-warning" onclick="changeColorScheme('contrast')">Kontrast</button>
+        </div>
     <div class="container mt-5">
         <h2>Zmiana hasła dla użytkownika: <?php echo $user_name; ?></h2>
         <form action="change_password.php" method="post">
             <div class="form-group">
                 <label for="current_password">Aktualne hasło:</label>
-                <input type="password" class="form-control" id="current_password" name="current_password" required>
+                <input type="password" class="form-control" id="current_password" name="current_password" required aria-required="true">
             </div>
             <div class="form-group">
                 <label for="new_password">Nowe hasło:</label>
-                <input type="password" class="form-control" id="new_password" name="new_password" required>
+                <input type="password" class="form-control" id="new_password" name="new_password" required aria-required="true">
             </div>
-            <button type="button" class="btn btn-primary" onclick="window.location.href='profile.php'">Powrót</button>
+            <button type="button" class="btn btn-secondary" onclick="window.location.href='profile.php'">Powrót</button>
             <button type="submit" class="btn btn-primary">Zmień hasło</button>
         </form>
+        
     </div>
 
     <!-- Dodanie skryptów Bootstrap -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        function changeColorScheme(color) {
+            document.body.className = color + '-scheme';
+        }
+    </script>
 </body>
 </html>

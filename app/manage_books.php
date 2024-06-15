@@ -69,9 +69,36 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <title>Zarządzanie Książkami</title>
     <!-- Dodanie stylów Bootstrap -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body.white-scheme {
+            background-color: white;
+            color: black;
+        }
+        body.black-scheme {
+            background-color: black;
+            color: gray;
+        }
+        body.contrast-scheme {
+            background-color: yellow;
+            color: black;
+        }
+        .color-scheme-buttons {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+        .color-scheme-buttons button {
+            margin-left: 5px;
+        }
+    </style>
 </head>
 <body>
     <div class="container mt-5">
+    <div class="color-scheme-buttons">
+            <button class="btn btn-light" onclick="changeColorScheme('white')">Biały</button>
+            <button class="btn btn-dark" onclick="changeColorScheme('black')">Czarny</button>
+            <button class="btn btn-warning" onclick="changeColorScheme('contrast')">Kontrast</button>
+        </div>
         <!-- Pasek nawigacyjny -->
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container">
@@ -129,5 +156,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        function changeColorScheme(color) {
+            document.body.className = color + '-scheme';
+        }
+    </script>
 </body>
 </html>

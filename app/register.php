@@ -38,8 +38,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Hashowanie hasła z solą i pieprzem
         $hashed_password = hash('sha256', $password . $salt . $pepper);
 
-        // Dodanie nowego użytkownika do bazy danych
-        $sql_insert = "INSERT INTO users (username, password, salt) VALUES ('$username', '$hashed_password', '$salt')";
+        // Dodanie nowego użytkownika do bazy danych z rolą klienta
+        $sql_insert = "INSERT INTO users (username, password, salt, user_type) VALUES ('$username', '$hashed_password', '$salt', 'klient')";
         if (mysqli_query($connection, $sql_insert)) {
             // Przekierowanie użytkownika do strony logowania po udanej rejestracji
             echo "<script>window.location.href = 'index.php';</script>";
@@ -59,6 +59,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <!-- Dodanie stylów Bootstrap -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <style>
+        body.white-scheme {
+            background-color: white;
+            color: black;
+        }
+        body.black-scheme {
+            background-color: black;
+            color: gray;
+        }
+        body.contrast-scheme {
+            background-color: yellow;
+            color: black;
+        }
+        .color-scheme-buttons {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+        .color-scheme-buttons button {
+            margin-left: 5px;
+        }
+    </style>
 </head>
 <body>
     <header class="bg-dark text-white p-3">
@@ -66,6 +88,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <h1>Biblioteka Online</h1>
         </div>
     </header>
+    <div class="color-scheme-buttons">
+            <button class="btn btn-light" onclick="changeColorScheme('white')">Biały</button>
+            <button class="btn btn-dark" onclick="changeColorScheme('black')">Czarny</button>
+            <button class="btn btn-warning" onclick="changeColorScheme('contrast')">Kontrast</button>
+        </div>
     <main class="py-5">
         <div class="container">
             <div id="register-form" class="bg-light p-4">
@@ -94,5 +121,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </footer>
     <!-- Dodanie skryptów Bootstrap -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        function changeColorScheme(color) {
+            document.body.className = color + '-scheme';
+        }
+    </script>
 </body>
 </html>
