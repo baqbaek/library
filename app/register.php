@@ -51,7 +51,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -73,11 +73,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <form action="register.php" method="post">
                     <div class="form-group">
                         <label for="username">Nazwa użytkownika:</label>
-                        <input type="text" id="username" name="username" class="form-control" required>
+                        <input type="text" id="username" name="username" class="form-control" required aria-describedby="usernameHelp">
+                        <small id="usernameHelp" class="form-text text-muted">Wprowadź unikalną nazwę użytkownika.</small>
                     </div>
                     <div class="form-group">
                         <label for="password">Hasło:</label>
-                        <input type="password" id="password" name="password" class="form-control" required>
+                        <input type="password" id="password" name="password" class="form-control" required aria-describedby="passwordHelp">
+                        <small id="passwordHelp" class="form-text text-muted">Wprowadź silne hasło, składające się z co najmniej 8 znaków.</small>
                     </div>
                     <button type="button" class="btn btn-primary" onclick="window.location.href='index.php'">Powrót</button>
                     <button type="submit" class="btn btn-primary">Zarejestruj</button>
