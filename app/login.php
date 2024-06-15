@@ -27,8 +27,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = mysqli_real_escape_string($connection, $_POST['username']);
     $password = mysqli_real_escape_string($connection, $_POST['password']);
 
-    // Pobranie hasła i soli dla podanej nazwy użytkownika z bazy danych
-    $sql = "SELECT password, salt FROM users WHERE username = ?";
+    // Pobranie hasła, soli i typu użytkownika dla podanej nazwy użytkownika z bazy danych
+    $sql = "SELECT password, salt, user_type FROM users WHERE username = ?";
     $stmt = mysqli_prepare($connection, $sql);
     mysqli_stmt_bind_param($stmt, 's', $username);
     mysqli_stmt_execute($stmt);
@@ -38,14 +38,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $row = mysqli_fetch_assoc($result);
         $stored_password = $row['password'];
         $salt = $row['salt'];
+        $user_type = $row['user_type'];
 
         // Hashowanie wprowadzonego hasła z solą i pieprzem
         $hashed_password = hash('sha256', $password . $salt . $pepper);
 
         // Sprawdzenie, czy hasło jest poprawne
         if ($hashed_password == $stored_password) {
-            // Użytkownik zalogowany poprawnie, ustaw zmienną sesji
+            // Użytkownik zalogowany poprawnie, ustaw zmienne sesji
             $_SESSION['user'] = $username;
+            $_SESSION['user_type'] = $user_type; // Dodanie typu użytkownika do sesji
             header("Location: dashboard.php");
             exit();
         } else {

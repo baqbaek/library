@@ -21,8 +21,9 @@ if (!isset($_SESSION['user'])) {
     exit();
 }
 
-// Pobranie nazwy zalogowanego użytkownika
+// Pobranie nazwy i typu zalogowanego użytkownika
 $user_name = $_SESSION['user'];
+$user_type = $_SESSION['user_type'];
 
 // Definicja różnych typów użytkowników
 $admin_users = array('admin');
@@ -30,10 +31,13 @@ $librarian_users = array('bibliotekarz');
 $client_users = array('klient');
 
 // Sprawdzenie, do jakiego typu użytkownika należy zalogowany użytkownik
-if (in_array($user_name, $admin_users) || in_array($user_name, $librarian_users)) {
-    // Wyświetlenie zawartości dla administratora i bibliotekarza
-    $dashboard_content = 'Witaj, ' . ucfirst($user_name) . '! Jesteś zalogowany jako ' . (in_array($user_name, $admin_users) ? 'Administrator' : 'Bibliotekarz');
-} elseif (in_array($user_name, $client_users)) {
+if (in_array($user_type, $admin_users)) {
+    // Wyświetlenie zawartości dla administratora
+    $dashboard_content = 'Witaj, ' . ucfirst($user_name) . '! Jesteś zalogowany jako Administrator';
+} elseif (in_array($user_type, $librarian_users)) {
+    // Wyświetlenie zawartości dla bibliotekarza
+    $dashboard_content = 'Witaj, ' . ucfirst($user_name) . '! Jesteś zalogowany jako Bibliotekarz';
+} elseif (in_array($user_type, $client_users)) {
     // Wyświetlenie zawartości dla klienta
     $dashboard_content = 'Witaj, Kliencie!';
 } else {
@@ -58,7 +62,7 @@ if (in_array($user_name, $admin_users) || in_array($user_name, $librarian_users)
         }
         body.black-scheme {
             background-color: black;
-            color: gray;
+            color: white;
         }
         body.contrast-scheme {
             background-color: yellow;
@@ -98,7 +102,7 @@ if (in_array($user_name, $admin_users) || in_array($user_name, $librarian_users)
                             <a class="nav-link" href="logout.php">Wyloguj się</a>
                         </li>
                     </ul>
-                    <?php if (in_array($user_name, $admin_users) || in_array($user_name, $librarian_users)) { ?>
+                    <?php if (in_array($user_type, $admin_users) || in_array($user_type, $librarian_users)) { ?>
                         <ul class="navbar-nav">
                             <li class="nav-item">
                                 <a class="nav-link" href="manage_books.php">Zarządzaj książkami</a>
