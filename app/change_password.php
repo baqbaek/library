@@ -20,20 +20,41 @@ function generateSalt($length = 16) {
 }
 
 // Funkcja do zmiany hasła użytkownika
-function changePassword($new_password, $user_name, $connection) {
+function changePassword($current_password, $new_password, $user_name, $connection) {
     global $pepper; // Użycie globalnej zmiennej $pepper
 
     // Zabezpieczenie hasła przed atakami SQL Injection
+    $current_password = mysqli_real_escape_string($connection, $current_password);
     $new_password = mysqli_real_escape_string($connection, $new_password);
 
-    // Generowanie soli
-    $salt = generateSalt();
+    // Pobranie aktualnego hasła i soli z bazy danych
+    $sql = "SELECT password, salt FROM users WHERE username = '$user_name'";
+    $result = mysqli_query($connection, $sql);
+    $row = mysqli_fetch_assoc($result);
 
-    // Hashowanie nowego hasła z solą i pieprzem
-    $hashed_password = hash('sha256', $new_password . $salt . $pepper);
+    // Weryfikacja aktualnego hasła
+    if ($row) {
+        $stored_password = $row['password'];
+        $salt = $row['salt'];
+        $hashed_current_password = hash('sha256', $current_password . $salt . $pepper);
+
+        if ($hashed_current_password != $stored_password) {
+            echo "<script>alert('Nieprawidłowe aktualne hasło.'); window.location.href = 'change_password.php';</script>";
+            return;
+        }
+    } else {
+        echo "<script>alert('Użytkownik nie istnieje.'); window.location.href = 'change_password.php';</script>";
+        return;
+    }
+
+    // Generowanie nowej soli
+    $new_salt = generateSalt();
+
+    // Hashowanie nowego hasła z nową solą i pieprzem
+    $hashed_new_password = hash('sha256', $new_password . $new_salt . $pepper);
 
     // Zapytanie SQL do aktualizacji hasła i soli w bazie danych
-    $sql = "UPDATE users SET password = '$hashed_password', salt = '$salt' WHERE username = '$user_name'";
+    $sql = "UPDATE users SET password = '$hashed_new_password', salt = '$new_salt' WHERE username = '$user_name'";
     
     // Wykonanie zapytania
     if (mysqli_query($connection, $sql)) {
@@ -57,9 +78,10 @@ if (!$connection) {
 
 // Sprawdzenie, czy formularz został przesłany
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if (isset($_POST['new_password'])) {
+    if (isset($_POST['current_password']) && isset($_POST['new_password'])) {
+        $current_password = $_POST['current_password'];
         $new_password = $_POST['new_password'];
-        changePassword($new_password, $user_name, $connection);
+        changePassword($current_password, $new_password, $user_name, $connection);
     }
 }
 ?>
@@ -77,6 +99,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div class="container mt-5">
         <h2>Zmiana hasła dla użytkownika: <?php echo $user_name; ?></h2>
         <form action="change_password.php" method="post">
+            <div class="form-group">
+                <label for="current_password">Aktualne hasło:</label>
+                <input type="password" class="form-control" id="current_password" name="current_password" required>
+            </div>
             <div class="form-group">
                 <label for="new_password">Nowe hasło:</label>
                 <input type="password" class="form-control" id="new_password" name="new_password" required>
