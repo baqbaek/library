@@ -12,6 +12,14 @@ if (!$connection) {
     die('Błąd połączenia z bazą danych: ' . mysqli_connect_error());
 }
 
+// Stały pieprz (powinien być przechowywany w pliku konfiguracyjnym lub w zmiennej środowiskowej)
+$pepper = "bartekKubaRafal";
+
+// Funkcja do generowania soli
+function generateSalt($length = 16) {
+    return bin2hex(random_bytes($length / 2));
+}
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = $_POST['username'];
     $password = $_POST['password'];
@@ -21,14 +29,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $result_check = mysqli_query($connection, $sql_check);
 
     if (mysqli_num_rows($result_check) > 0) {
-        // Użytkownik o tej nazwie już istnieje
+        // Użytkownik o tej nazwie już istnieje 
         echo "<script>alert('Użytkownik o tej nazwie już istnieje.');</script>";
     } else {
-        // Zaszyfrowanie hasła przed dodaniem do bazy danych
-        $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+        // Generowanie soli
+        $salt = generateSalt();
+        
+        // Hashowanie hasła z solą i pieprzem
+        $hashed_password = hash('sha256', $password . $salt . $pepper);
 
         // Dodanie nowego użytkownika do bazy danych
-        $sql_insert = "INSERT INTO users (username, password) VALUES ('$username', '$hashed_password')";
+        $sql_insert = "INSERT INTO users (username, password, salt) VALUES ('$username', '$hashed_password', '$salt')";
         if (mysqli_query($connection, $sql_insert)) {
             // Przekierowanie użytkownika do strony logowania po udanej rejestracji
             echo "<script>window.location.href = 'index.php';</script>";

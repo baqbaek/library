@@ -11,6 +11,7 @@ CREATE TABLE users (
     email VARCHAR(100) NOT NULL,
     user_type ENUM('admin', 'bibliotekarz', 'klient') NOT NULL
 );
+ALTER TABLE users ADD COLUMN salt VARCHAR(32) NOT NULL;
 
 CREATE TABLE books (
     id INT AUTO_INCREMENT PRIMARY KEY,

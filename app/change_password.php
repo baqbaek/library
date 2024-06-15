@@ -11,16 +11,29 @@ if (!isset($_SESSION['user'])) {
 // Pobranie nazwy zalogowanego użytkownika
 $user_name = $_SESSION['user'];
 
+// Stały pieprz (powinien być przechowywany w pliku konfiguracyjnym lub w zmiennej środowiskowej)
+$pepper = "bartekKubaRafal";
+
+// Funkcja do generowania soli
+function generateSalt($length = 16) {
+    return bin2hex(random_bytes($length / 2));
+}
+
 // Funkcja do zmiany hasła użytkownika
 function changePassword($new_password, $user_name, $connection) {
+    global $pepper; // Użycie globalnej zmiennej $pepper
+
     // Zabezpieczenie hasła przed atakami SQL Injection
     $new_password = mysqli_real_escape_string($connection, $new_password);
 
-    // Haszowanie nowego hasła
-    $hashed_password = password_hash($new_password, PASSWORD_DEFAULT);
+    // Generowanie soli
+    $salt = generateSalt();
 
-    // Zapytanie SQL do aktualizacji hasła w bazie danych
-    $sql = "UPDATE users SET password = '$hashed_password' WHERE username = '$user_name'";
+    // Hashowanie nowego hasła z solą i pieprzem
+    $hashed_password = hash('sha256', $new_password . $salt . $pepper);
+
+    // Zapytanie SQL do aktualizacji hasła i soli w bazie danych
+    $sql = "UPDATE users SET password = '$hashed_password', salt = '$salt' WHERE username = '$user_name'";
     
     // Wykonanie zapytania
     if (mysqli_query($connection, $sql)) {
