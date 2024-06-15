@@ -1,4 +1,4 @@
-DROP DATABASE biblioteka;
+DROP DATABASE IF EXISTS biblioteka;
 
 CREATE DATABASE biblioteka;
 
@@ -9,7 +9,7 @@ CREATE TABLE users (
     username VARCHAR(50) NOT NULL,
     password VARCHAR(255) NOT NULL,
     email VARCHAR(100) NOT NULL,
-    user_type ENUM('admin', 'bibliotekarz', 'klient') NOT NULL DEFAULT 'klient';
+    user_type ENUM('admin', 'bibliotekarz', 'klient') NOT NULL
 );
 ALTER TABLE users ADD COLUMN salt VARCHAR(32) NOT NULL;
 
